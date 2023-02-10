@@ -2,18 +2,31 @@ package com.juanstudy.investmentsequalitykotlin
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.juanstudy.investmentsequalitykotlin.adapter.AssetsAdapter
+import com.juanstudy.investmentsequalitykotlin.databinding.ActivityMainBinding
+import com.juanstudy.investmentsequalitykotlin.models.Asset
 
 class MainActivity : AppCompatActivity() {
 
-    var tv_main: TextView? = null
+    private lateinit var binding: ActivityMainBinding
 
+    //    private val adapter:
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        tv_main = findViewById(R.id.tv_main)
-        tv_main?.text = "opa"
+        setAdapter()
+        setViewModel()
     }
 
+    private fun setAdapter(){
+        binding.listAssets.layoutManager = LinearLayoutManager(this)
+        binding.listAssets.adapter = AssetsAdapter(listOf( Asset(1,"LOGG3",1,100.0,1)))
+    }
+
+    private fun setViewModel(){
+
+    }
 }
