@@ -1,20 +1,30 @@
 package com.juanstudy.investmentsequalitykotlin.db
 
+import android.app.Application
+import android.util.Log
 import androidx.annotation.WorkerThread
+import androidx.lifecycle.LiveData
+import androidx.room.Room
 import com.juanstudy.investmentsequalitykotlin.models.Asset
+import kotlinx.coroutines.flow.Flow
 
-class AssetRepository(private val assetDao: AssetDao) {
+class AssetRepository(private val application: Application) {
 
-    // Room executes all queries on a separate thread.
-    // Observed Flow will notify the observer when the data has changed.
-    val allWords: List<Asset> = assetDao.getAssets()
+  suspend  fun getAll(): List<Asset> {
+        return getAssetDAO().getAll()
+    }
 
-    // By default Room runs suspend queries off the main thread, therefore, we don't need to
-    // implement anything else to ensure we're not doing long running database work
-    // off the main thread.
-    @Suppress("RedundantSuspendModifier")
-    @WorkerThread
-    suspend fun insert(asset: Asset) {
-        assetDao.insert(asset)
+    suspend fun insert(asset: Asset?) {
+        try {
+            asset?.let {
+                getAssetDAO().insert(asset)
+            }
+        } catch (e: Exception) {
+            Log.e("JUAN", "erro na hora de salvar o asset = " + e.message)
+        }
+    }
+
+    private fun getAssetDAO(): AssetDao {
+        return DatabaseApp.getDatabase(application).assetDao()
     }
 }

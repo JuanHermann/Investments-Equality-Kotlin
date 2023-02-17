@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.juanstudy.investmentsequalitykotlin.databinding.AdapterAssetsBinding
 import com.juanstudy.investmentsequalitykotlin.models.Asset
 
-class AssetsAdapter(private val assets: List<Asset>) :
+class AssetsAdapter(var assets: List<Asset>) :
     RecyclerView.Adapter<AssetsAdapter.AssetViewHolder>() {
 
 

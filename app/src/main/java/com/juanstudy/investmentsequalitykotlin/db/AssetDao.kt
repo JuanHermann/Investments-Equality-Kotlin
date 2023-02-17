@@ -6,15 +6,16 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.juanstudy.investmentsequalitykotlin.models.Asset
 
+
 @Dao
 interface AssetDao {
-
     @Query("SELECT * FROM assets")
-    fun getAssets(): List<Asset>
+  suspend  fun getAll(): List<Asset>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insert(asset: Asset)
-//
-//    @Query("DELETE FROM word_table")
-//    suspend fun deleteAll()
+
+    @Query("DELETE FROM assets")
+    suspend fun deleteAll()
+
 }
